@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="eng">
+  <head></head>
+  <body>
+    <h3>Pretraži sastanke prema datumu:</h3>
+    <label for="date">Unesi datum: (YYYY-MM-DD format)</label>
+    <input type="text" id="date" name="date" value="" />
+    <button onclick="myFunction()" value="Submit">Search</button>
+
+    <script type="text/javascript">
+      function myFunction() {
+        var date = document.getElementById("date").value;
+        return (window.location.href =
+          "http://localhost:8080/API/search/" + date);
+      }
+    </script>
+  </body>
+</html>

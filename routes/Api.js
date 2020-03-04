@@ -56,11 +56,81 @@ router.get("/events/delete/:id", function(req, res, next) {
 
 router.get("/help", function(req, res, next) {
   try {
-    //const data = fs.readFileSync("help.html", "text/html");
-    // var arrayOfStrings = data.split("\n");
-    // var paragraph = document.createElement("P");
-    // var list = arrayOfStrings.map(string => (paragraph.innerText = string))
     res.sendFile(path.join(__dirname + "/help.html"));
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.get("/search", function(req, res, next) {
+  try {
+    res.sendFile(path.join(__dirname + "/search.html"));
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.get("/search/:date", function(req, res, next) {
+  var date = new Date(req.params.date).getTime() / 1000;
+
+  var data = fs.readFileSync("dataLog.json");
+  var jsonData = JSON.parse(data);
+  var filteredData = jsonData.events.filter(
+    event => event.start > date && event.end < date + 86400
+  );
+
+  function timeFormat(unixDate) {
+    var date = new Date(unixDate * 1000);
+
+    var hours = date.getHours();
+    var minutes = "0" + date.getMinutes();
+
+    var formattedTime = hours + ":" + minutes.substr(-2) + " h";
+    return formattedTime;
+  }
+
+  function dateFormat(unixDate) {
+    var date = new Date(unixDate);
+    var months = [
+      "Siječnja",
+      "Veljače",
+      "Ožujka",
+      "Travnja",
+      "Svibnja",
+      "Lipnja",
+      "Srpnja",
+      "Kolovoza",
+      "Rujna",
+      "Listopada",
+      "Studenog",
+      "Prosinca"
+    ];
+
+    var month = months[date.getMonth()];
+    var day = date.getDate();
+    var year = date.getFullYear();
+
+    var formattedTime = day + ". " + month + " " + year + ". godine";
+    return formattedTime;
+  }
+
+  try {
+    res.setHeader("Content-type", "text/html");
+    res.send(
+      "<h2>Sastanci na dan: " +
+        dateFormat(req.params.date) +
+        "</h2>" +
+        filteredData.map(
+          event =>
+            "<p><strong>Naziv: </strong>" +
+            event.title +
+            "<strong> Početak: </strong>" +
+            timeFormat(event.start) +
+            "<strong> Kraj: </strong>" +
+            timeFormat(event.end) +
+            "</p>"
+        )
+    );
   } catch (err) {
     console.error(err);
   }
