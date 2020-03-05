@@ -116,21 +116,23 @@ router.get("/search/:date", function(req, res, next) {
 
   try {
     res.setHeader("Content-type", "text/html");
-    res.send(
-      "<h2>Sastanci na dan: " +
-        dateFormat(req.params.date) +
-        "</h2>" +
-        filteredData.map(
-          event =>
-            "<p><strong>Naziv: </strong>" +
-            event.title +
-            "<strong> Početak: </strong>" +
-            timeFormat(event.start) +
-            "<strong> Kraj: </strong>" +
-            timeFormat(event.end) +
-            "</p>"
-        )
-    );
+    if (filteredData.length !== 0) {
+      res.send(
+        "<h2>Sastanci na dan: " +
+          dateFormat(req.params.date) +
+          "</h2>" +
+          filteredData.map(
+            event =>
+              "<p><strong>Naziv: </strong>" +
+              event.title +
+              "<strong> Početak: </strong>" +
+              timeFormat(event.start) +
+              "<strong> Kraj: </strong>" +
+              timeFormat(event.end) +
+              "</p>"
+          )
+      );
+    } else res.send("<h2>Sastanci na dan: " + dateFormat(req.params.date) + "</h2> <p>Nema sastanaka</p>");
   } catch (err) {
     console.error(err);
   }

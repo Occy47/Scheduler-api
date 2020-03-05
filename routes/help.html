@@ -5,10 +5,31 @@
     <p>Server address: 192.168.0.21</p>
     <h3>COMMANDS:</h3>
     <p>
-      add event --- "192.168.0.21:8080/API/events/add/[id]/[title]/[start
+      Add event --- "192.168.0.21:8080/api/events/add/[id]/[title]/[start
       date]/[end date]"
     </p>
-    <p>delete event --- "192.168.0.21:8080/API/events/delete/[id]"</p>
-    <p>search events --- "192.168.0.21:8080/API/search"</p>
+    <pre style="padding-left: 25px">
+element                                         type                                        description</pre
+    >
+    <pre style="padding-left: 25px">
+[id]                                            string                                        unique id</pre
+    >
+    <pre style="padding-left: 25px">
+[title]                                         string                                        title</pre
+    >
+    <pre style="padding-left: 25px">
+[start date]                                    string                                        unix time in seconds</pre
+    >
+    <pre style="padding-left: 25px">
+[end date]                                      string                                        unix time in seconds</pre
+    >
+    <p>Delete event --- "192.168.0.21:8080/api/events/delete/[id]"</p>
+    <pre style="padding-left: 25px">
+element                                         type                                        description</pre
+    >
+    <pre style="padding-left: 25px">
+[id]                                            string                                        unique id</pre
+    >
+    <p>Search events --- "192.168.0.21:8080/api/search"</p>
   </body>
 </html>
