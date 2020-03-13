@@ -54,6 +54,32 @@ router.get("/events/delete/:id", function(req, res, next) {
   });
 });
 
+router.get("/events/update/:id/:title/:start/:end", function(req, res, next) {
+  var newId = req.params.id;
+  var newTitle = req.params.title;
+  var newStart = req.params.start;
+  var newEnd = req.params.end;
+
+  var newEvent = {
+    id: newId,
+    title: newTitle,
+    start: newStart,
+    end: newEnd
+  };
+
+  var data = fs.readFileSync("dataLog.json");
+  var jsonData = JSON.parse(data);
+  var filteredData = jsonData.events.filter(event => event.id !== newId);
+  filteredData.push(newEvent);
+  var newState = { events: filteredData };
+  var jsonDataString = JSON.stringify(newState);
+
+  fs.writeFile("dataLog.json", jsonDataString, err => {
+    if (err) throw err;
+    res.send("Event was updated!");
+  });
+});
+
 router.get("/help", function(req, res, next) {
   try {
     res.sendFile(path.join(__dirname + "/help.html"));
